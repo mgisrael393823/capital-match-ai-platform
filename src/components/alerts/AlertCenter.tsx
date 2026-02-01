@@ -55,7 +55,7 @@ export function AlertCenter() {
     error, 
     fetchAlerts,
     markAllAsRead,
-    preferences
+    getAlertPreferences
   } = useAlerts();
   
   const [selectedAlert, setSelectedAlert] = useState<Alert | null>(null);
@@ -191,7 +191,7 @@ export function AlertCenter() {
   };
 
   if (showPreferences) {
-    return <AlertPreferences onBack={() => setShowPreferences(false)} />;
+    return <AlertPreferences onClose={() => setShowPreferences(false)} />;
   }
   
   if (selectedAlert) {
