@@ -53,7 +53,7 @@ const ApiDocs = () => {
                     <h4 className="text-lg font-medium mb-2">Endpoint</h4>
                     <div className="bg-muted p-3 rounded-md">
                       <code className="text-sm font-mono">
-                        GET https://capital-match-ai-platform.vercel.app/api/zoning?address={address}
+                        GET https://capital-match-ai-platform.vercel.app/api/zoning?address={"{"}"address{"}"}
                       </code>
                     </div>
                   </div>
@@ -166,7 +166,7 @@ POST /api/investor-match
                     <h4 className="text-lg font-medium mb-2">Endpoint</h4>
                     <div className="bg-muted p-3 rounded-md">
                       <code className="text-sm font-mono">
-                        GET https://capital-match-ai-platform.vercel.app/api/market-comparison?city={city}&assetType={assetType}&capRate={capRate}&rentPerSqFt={rentPerSqFt}&pricePerUnit={pricePerUnit}
+                        GET https://capital-match-ai-platform.vercel.app/api/market-comparison?city={"{"}"city{"}"}&assetType={"{"}"assetType{"}"}&capRate={"{"}"capRate{"}"}&rentPerSqFt={"{"}"rentPerSqFt{"}"}&pricePerUnit={"{"}"pricePerUnit{"}"}
                       </code>
                     </div>
                   </div>

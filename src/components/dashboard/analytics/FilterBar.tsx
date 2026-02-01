@@ -165,7 +165,7 @@ const FilterBar: React.FC<{ onRefresh?: () => void }> = ({ onRefresh }) => {
               {filterOptions.lpTypes.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
-                  onClick={() => setLpTypeFilter(option.value)}
+                  onClick={() => setLpTypeFilter(option.value as any)}
                   className="flex items-center justify-between"
                 >
                   {option.label}
@@ -191,7 +191,7 @@ const FilterBar: React.FC<{ onRefresh?: () => void }> = ({ onRefresh }) => {
               {filterOptions.dealTypes.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
-                  onClick={() => setDealTypeFilter(option.value)}
+                  onClick={() => setDealTypeFilter(option.value as any)}
                   className="flex items-center justify-between"
                 >
                   {option.label}
@@ -217,7 +217,7 @@ const FilterBar: React.FC<{ onRefresh?: () => void }> = ({ onRefresh }) => {
               {filterOptions.statusOptions.map((option) => (
                 <DropdownMenuItem
                   key={option.value}
-                  onClick={() => setStatusFilter(option.value)}
+                  onClick={() => setStatusFilter(option.value as any)}
                   className="flex items-center justify-between"
                 >
                   {option.label}

@@ -21,7 +21,7 @@ export function AlertItem({ alert, onSelect }: AlertItemProps) {
   };
   
   const handleClick = () => {
-    if (!alert.isRead) {
+    if (!alert.read) {
       markAsRead(alert.id);
     }
     
@@ -52,9 +52,31 @@ export function AlertItem({ alert, onSelect }: AlertItemProps) {
     }
   };
   
+  // Get type display name
+  const getTypeDisplay = () => {
+    switch (alert.type) {
+      case 'high_opportunity_property':
+        return 'High Opportunity';
+      case 'price_change':
+        return 'Price Change';
+      case 'status_change':
+        return 'Status Change';
+      case 'new_listing':
+        return 'New Listing';
+      case 'neighborhood_opportunity':
+        return 'Neighborhood Opportunity';
+      case 'market_trend':
+        return 'Market Trend';
+      case 'seasonal_opportunity':
+        return 'Seasonal Opportunity';
+      default:
+        return alert.type;
+    }
+  };
+  
   // Get background color based on read status and priority
   const getCardClass = () => {
-    if (!alert.isRead) {
+    if (!alert.read) {
       switch (alert.priority) {
         case 'high':
           return 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-700';
@@ -70,7 +92,7 @@ export function AlertItem({ alert, onSelect }: AlertItemProps) {
   };
   
   // Format date
-  const formattedDate = formatDistanceToNow(new Date(alert.createdAt), { addSuffix: true });
+  const formattedDate = formatDistanceToNow(new Date(alert.created_at), { addSuffix: true });
   
   return (
     <Card 
@@ -81,7 +103,7 @@ export function AlertItem({ alert, onSelect }: AlertItemProps) {
         <div className="flex justify-between items-start">
           <div className="flex items-center gap-2">
             {getAlertIcon()}
-            <CardTitle className="text-sm font-medium">{alert.typeDisplay}</CardTitle>
+            <CardTitle className="text-sm font-medium">{getTypeDisplay()}</CardTitle>
           </div>
           
           <div className="flex items-center gap-2">
@@ -155,36 +177,38 @@ export function AlertItem({ alert, onSelect }: AlertItemProps) {
           </div>
         )}
         
-        {alert.property && (
+        {alert.property_address && (
           <div className="mt-2 text-xs text-muted-foreground">
             <div className="flex items-center gap-2">
               <Building className="h-3 w-3" />
-              <span className="font-medium">{alert.property.address}</span>
+              <span className="font-medium">{alert.property_address}</span>
             </div>
-            <div className="flex items-center justify-between mt-1">
-              <span>{alert.property.type}</span>
-              <span>{alert.property.neighborhood}</span>
-            </div>
+            {alert.details && (
+              <div className="flex items-center justify-between mt-1">
+                <span>{alert.details.property_type}</span>
+                <span>{alert.details.neighborhood}</span>
+              </div>
+            )}
           </div>
         )}
         
         {/* Show any additional data here if needed */}
-        {alert.data && alert.data.price && (
+        {alert.details && alert.details.new_price && (
           <div className="mt-2 text-xs">
-            <span className="font-medium">Price: ${alert.data.price.toLocaleString()}</span>
+            <span className="font-medium">Price: ${alert.details.new_price.toLocaleString()}</span>
             
-            {alert.data.price_change_pct && (
-              <span className={alert.data.price_change_pct < 0 ? "text-green-600 ml-2" : "text-red-600 ml-2"}>
-                {alert.data.price_change_pct > 0 ? '+' : ''}{alert.data.price_change_pct.toFixed(1)}%
+            {alert.details.price_change_percentage && (
+              <span className={alert.details.price_change_percentage < 0 ? "text-green-600 ml-2" : "text-red-600 ml-2"}>
+                {alert.details.price_change_percentage > 0 ? '+' : ''}{alert.details.price_change_percentage.toFixed(1)}%
               </span>
             )}
           </div>
         )}
         
-        {alert.data && alert.data.investment_opportunity_score && (
+        {alert.details && alert.details.opportunity_score && (
           <div className="mt-1 text-xs">
             <span className="font-medium">Opportunity Score: </span>
-            <span className="text-blue-600">{alert.data.investment_opportunity_score}</span>
+            <span className="text-blue-600">{alert.details.opportunity_score}</span>
           </div>
         )}
       </CardContent>
@@ -194,7 +218,7 @@ export function AlertItem({ alert, onSelect }: AlertItemProps) {
           View Details
         </Button>
         
-        {!alert.isRead && (
+        {!alert.read && (
           <Button variant="ghost" size="sm" onClick={handleMarkRead}>
             Mark as Read
           </Button>

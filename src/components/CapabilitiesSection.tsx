@@ -22,7 +22,7 @@ import {
 import { cn } from '@/lib/utils';
 
 interface TabProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   isActive: boolean;
   onClick: () => void;
   color: string;
