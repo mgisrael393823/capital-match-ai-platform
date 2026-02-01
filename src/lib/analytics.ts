@@ -189,15 +189,13 @@ const setupVisibilityTracking = () => {
 const setupSessionTracking = () => {
   const sessionStartTime = Date.now();
   let scrollDepth = 0;
+  let ticking = false;
   
-  // Track maximum scroll depth
-  window.addEventListener('scroll', () => {
+  // Track maximum scroll depth with requestAnimationFrame to avoid forced reflow
+  const updateScrollDepth = () => {
     const documentHeight = Math.max(
       document.body.scrollHeight,
-      document.body.offsetHeight,
-      document.documentElement.clientHeight,
-      document.documentElement.scrollHeight,
-      document.documentElement.offsetHeight
+      document.documentElement.scrollHeight
     );
     
     const windowHeight = window.innerHeight;
@@ -215,7 +213,15 @@ const setupSessionTracking = () => {
         });
       }
     }
-  });
+    ticking = false;
+  };
+  
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateScrollDepth);
+      ticking = true;
+    }
+  }, { passive: true });
   
   // Report session data when user leaves
   window.addEventListener('beforeunload', () => {
